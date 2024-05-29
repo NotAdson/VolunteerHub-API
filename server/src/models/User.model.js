@@ -1,4 +1,3 @@
-import { DESCRIBE } from "sequelize/lib/query-types"
 import { database } from "../database/connection.js"
 import { DataTypes, Sequelize } from "sequelize"
 
