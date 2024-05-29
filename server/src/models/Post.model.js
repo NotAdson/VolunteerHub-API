@@ -28,7 +28,23 @@ const PostModel = database.define("tb_posts", {
             key: UserModel.id
         },
         allowNull: false
+    },
+
+    description:{
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
+    profile_picture_url:{
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
+    cv_url:{
+        type: DataTypes.STRING,
+        allowNull: true
     }
+    
 })
 
 export {PostModel}
