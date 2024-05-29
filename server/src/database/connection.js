@@ -1,6 +1,10 @@
 import { Sequelize } from "sequelize";
 
-const database = new Sequelize("postgresql://db_insight_bytes_owner:uUIc8MZdBEN6@ep-late-boat-a5f0niug.us-east-2.aws.neon.tech/db_insight_bytes?sslmode=require");
+const database = new Sequelize('volunteerhub_db', 'root', 'root', {
+    host: 'localhost',
+    dialect: 'mysql',
+    logging: false
+});
 
 export async function tryToConnect(){
     try{
