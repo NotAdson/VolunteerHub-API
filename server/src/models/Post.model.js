@@ -30,7 +30,10 @@ const PostModel = database.define("tb_posts", {
         allowNull: false
     },
 
-    
+    tags: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    }
     
 })
 
