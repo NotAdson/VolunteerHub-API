@@ -32,7 +32,7 @@ export class UserService{
             if(!user || user.password !== password){
                 return {
                     statusValue: 401,
-                    message: ERROS.WRONG_PASSWORD
+                    message: "The email or password is wrong!"
                 }
             }
 
