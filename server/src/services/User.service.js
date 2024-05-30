@@ -14,7 +14,7 @@ export class UserService{
             }
         }catch(error){
             return {
-                statusValue: 404,
+                statusValue: 500,
                 message: error.message
             }
         }
@@ -30,13 +30,21 @@ export class UserService{
             })
 
             if(!user || user.password !== password){
-                return null
+                return {
+                    statusValue: 401,
+                    message: ERROS.WRONG_PASSWORD
+                }
             }
 
-            return user.id
+            return {
+                statusValue: 200,
+                userId: user.id
+            }
         }catch(error){
-            console.log(error.message)
-            return null
+            return {
+                statusValue: 500,
+                message: error.message
+            }
         }
     }
 
@@ -44,6 +52,14 @@ export class UserService{
         try{
             await database.sync()
             const user = await UserModel.findByPk(id)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: ERROS.USER_NOT_FOUND
+                }
+            }
+
             return {
                 statusValue:200,
                 message: `Returned ${SUCCESS.USER}`,
@@ -51,7 +67,7 @@ export class UserService{
             }
         }catch(error){
             return {
-                statusValue:404,
+                statusValue: 500,
                 message: error.message
             }
         }
@@ -61,6 +77,14 @@ export class UserService{
         try{
             await database.sync()
             const user = await UserModel.findByPk(id)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: ERROS.USER_NOT_FOUND
+                }
+            }
+
             if(user.password === password){
                 user.update({password:newPassword})
                 return {
@@ -70,12 +94,12 @@ export class UserService{
             }
     
             return {
-                statusValue: 404,
+                statusValue: 401,
                 message: ERROS.WRONG_PASSWORD
             }
         }catch(error){
             return {
-                statusValue: 404,
+                statusValue: 500,
                 message: error.message
             }
         }
@@ -85,6 +109,14 @@ export class UserService{
         try{
             await database.sync()
             const user = await UserModel.findByPk(id)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: ERROS.USER_NOT_FOUND
+                }
+            }
+
             if(user.password === password){
                 user.update({username: newUsername})
                 return {
@@ -94,12 +126,13 @@ export class UserService{
             }
     
             return {
-                statusValue: 404,
+                statusValue: 401,
                 message: ERROS.WRONG_PASSWORD
             }
+
         }catch(error){
             return {
-                statusValue: 404,
+                statusValue: 500,
                 message: error.message
             }
         }
@@ -109,11 +142,18 @@ export class UserService{
         try{
             await database.sync()
             const user = await UserModel.findByPk(userId)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: ERROS.USER_NOT_FOUND
+                }
+            }
             
             if(user.password !== password){
                 return {
-                    statusValue: 400,
-                    message: `Wrong password!`
+                    statusValue: 401,
+                    message: ERROS.WRONG_PASSWORD
                 }
             }
 
@@ -124,7 +164,7 @@ export class UserService{
             }
         }catch(error){
             return {
-                statusValue: 404,
+                statusValue: 500,
                 message: error.message
             }
         }
