@@ -30,18 +30,8 @@ const PostModel = database.define("tb_posts", {
         allowNull: false
     },
 
-    description:{
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-
-    profile_picture_url:{
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-
-    cv_url:{
-        type: DataTypes.STRING,
+    tags: {
+        type: DataTypes.TEXT,
         allowNull: true
     }
     
