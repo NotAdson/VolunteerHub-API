@@ -35,4 +35,9 @@ export const UserModel = database.define("tb_users", {
         type: DataTypes.STRING,
         allowNull: true
     }
+
+    cv_url:{
+        type: DataTypes.STRING,
+        allowNull: true
+    }
 })
