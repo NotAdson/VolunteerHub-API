@@ -3,7 +3,8 @@ export const ERROS = {
     NOT_FOUND: "not found!",
     USER_NEEDS: "The user needs",
     POST_NEEDS: "The post needs",
-    COMMENT_NEEDS: "The comment needs"
+    COMMENT_NEEDS: "The comment needs",
+    USER_NOT_FOUND: "User not found"
 }
 
 export const SUCCESS = {
