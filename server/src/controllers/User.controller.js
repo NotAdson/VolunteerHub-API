@@ -92,7 +92,7 @@ export async function updateUsersPassword(req, res){
         console.log(error.message)
 
         return res.status(500).json({
-            message: `${ERROS.INTERNAL} while trying to log user in.`
+            message: `${ERROS.INTERNAL} while trying to update user's password.`
         })
     }
 
@@ -111,7 +111,7 @@ export async function updateUsername(req, res){
         console.log(error.message)
 
         return res.status(500).json({
-            message: `${ERROS.INTERNAL} while trying to log user in.`
+            message: `${ERROS.INTERNAL} while trying to update user's username.`
         })
     }
 
@@ -126,12 +126,12 @@ export async function deleteUser(req, res){
         const { statusValue, message} = await instanceUsersService.deleteUser(userId, password)
 
         return res.status(statusValue).json({message: message})
-        
+
     }catch(error){
         console.log(error.message)
 
         return res.status(500).json({
-            message: `${ERROS.INTERNAL} while trying to log user in.`
+            message: `${ERROS.INTERNAL} while trying to delete user.`
         })
     }
 
