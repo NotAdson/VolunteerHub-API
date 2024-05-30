@@ -34,7 +34,7 @@ export const UserModel = database.define("tb_users", {
     profile_picture_url:{
         type: DataTypes.STRING,
         allowNull: true
-    }
+    },
 
     cv_url:{
         type: DataTypes.STRING,
