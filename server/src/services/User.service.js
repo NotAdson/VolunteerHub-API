@@ -67,7 +67,13 @@ export class UserService{
             return {
                 statusValue:200,
                 message: `Returned ${SUCCESS.USER}`,
-                user: user
+                user: {
+                    id: user.id,
+                    profile_picture: user.profile_picture_url,
+                    username: user.username,
+                    description: user.description,
+                    cv: user.cv_url
+                }
             }
         }catch(error){
             console.log(error.message)
