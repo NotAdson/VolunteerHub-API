@@ -13,9 +13,11 @@ export class UserService{
                 userId: newUser.id
             }
         }catch(error){
+            console.log(error.message)
+
             return {
                 statusValue: 500,
-                message: error.message
+                message: `${ERROS.INTERNAL} while creating user.`
             }
         }
     }
@@ -41,9 +43,11 @@ export class UserService{
                 userId: user.id
             }
         }catch(error){
+            console.log(error.message)
+
             return {
                 statusValue: 500,
-                message: error.message
+                message: `${ERROS.INTERNAL} while validating user.`
             }
         }
     }
@@ -66,9 +70,11 @@ export class UserService{
                 user: user
             }
         }catch(error){
+            console.log(error.message)
+
             return {
                 statusValue: 500,
-                message: error.message
+                message: `${ERROS.INTERNAL} while getting user.`
             }
         }
     }
@@ -98,9 +104,11 @@ export class UserService{
                 message: ERROS.WRONG_PASSWORD
             }
         }catch(error){
+            console.log(error.message)
+
             return {
                 statusValue: 500,
-                message: error.message
+                message: `${ERROS.INTERNAL} while updating password.`
             }
         }
     }
@@ -131,12 +139,15 @@ export class UserService{
             }
 
         }catch(error){
+            console.log(error.message)
+
             return {
                 statusValue: 500,
-                message: error.message
+                message: `${ERROS.INTERNAL} while updating username.`
             }
         }
     }
+
 
     async deleteUser(userId, password){
         try{
@@ -163,9 +174,11 @@ export class UserService{
                 message: `User ${SUCCESS.DELETED}`
             }
         }catch(error){
+            console.log(error.message)
+
             return {
                 statusValue: 500,
-                message: error.message
+                message: `${ERROS.INTERNAL} while deleting user`
             }
         }
 
