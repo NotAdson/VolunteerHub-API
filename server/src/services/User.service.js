@@ -154,6 +154,34 @@ export class UserService{
         }
     }
 
+    async updateProfilePicture(id, url){
+        try{
+            await database.sync()
+            const user = await UserModel.findByPk(id)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: `User ${ERROS.NOT_FOUND}.`
+                }
+            }
+
+            user.profile_picture_url = url
+
+            return {
+                statusValue: 200,
+                message: `Profile picture updated`
+            }
+
+        }catch(error){
+            console.log(error.message)
+
+            return {
+                statusValue: 500,
+                message: `${ERROS.INTERNAL} while updating profile picture.`
+            }
+        }
+    }
 
     async deleteUser(userId, password){
         try{
