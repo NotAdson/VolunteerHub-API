@@ -207,6 +207,35 @@ export class UserService{
 
             return {
                 statusValue: 500,
+                message: `${ERROS.INTERNAL} while updating description.`
+            }
+        }
+    }
+
+    async updateCV(id, url){
+        try{
+            await database.sync()
+            const user = await UserModel.findByPk(id)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: `User ${ERROS.NOT_FOUND}.`
+                }
+            }
+
+            user.cv_url = url
+
+            return {
+                statusValue: 200,
+                message: `CV updated`
+            }
+
+        }catch(error){
+            console.log(error.message)
+
+            return {
+                statusValue: 500,
                 message: `${ERROS.INTERNAL} while updating profile picture.`
             }
         }
