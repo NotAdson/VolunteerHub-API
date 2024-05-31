@@ -183,6 +183,35 @@ export class UserService{
         }
     }
 
+    async updateDescription(id, description){
+        try{
+            await database.sync()
+            const user = await UserModel.findByPk(id)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: `User ${ERROS.NOT_FOUND}.`
+                }
+            }
+
+            user.description = description
+
+            return {
+                statusValue: 200,
+                message: `Description updated`
+            }
+
+        }catch(error){
+            console.log(error.message)
+
+            return {
+                statusValue: 500,
+                message: `${ERROS.INTERNAL} while updating profile picture.`
+            }
+        }
+    }
+
     async deleteUser(userId, password){
         try{
             await database.sync()
