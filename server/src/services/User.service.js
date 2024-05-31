@@ -13,9 +13,11 @@ export class UserService{
                 userId: newUser.id
             }
         }catch(error){
+            console.log(error.message)
+
             return {
-                statusValue: 404,
-                message: error.message
+                statusValue: 500,
+                message: `${ERROS.INTERNAL} while creating user.`
             }
         }
     }
@@ -30,13 +32,23 @@ export class UserService{
             })
 
             if(!user || user.password !== password){
-                return null
+                return {
+                    statusValue: 401,
+                    message: "The email or password is wrong!"
+                }
             }
 
-            return user.id
+            return {
+                statusValue: 200,
+                userId: user.id
+            }
         }catch(error){
             console.log(error.message)
-            return null
+
+            return {
+                statusValue: 500,
+                message: `${ERROS.INTERNAL} while validating user.`
+            }
         }
     }
 
@@ -44,15 +56,31 @@ export class UserService{
         try{
             await database.sync()
             const user = await UserModel.findByPk(id)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: ERROS.USER_NOT_FOUND
+                }
+            }
+
             return {
                 statusValue:200,
                 message: `Returned ${SUCCESS.USER}`,
-                user: user
+                user: {
+                    id: user.id,
+                    profile_picture: user.profile_picture_url,
+                    username: user.username,
+                    description: user.description,
+                    cv: user.cv_url
+                }
             }
         }catch(error){
+            console.log(error.message)
+
             return {
-                statusValue:404,
-                message: error.message
+                statusValue: 500,
+                message: `${ERROS.INTERNAL} while getting user.`
             }
         }
     }
@@ -61,6 +89,14 @@ export class UserService{
         try{
             await database.sync()
             const user = await UserModel.findByPk(id)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: ERROS.USER_NOT_FOUND
+                }
+            }
+
             if(user.password === password){
                 user.update({password:newPassword})
                 return {
@@ -70,13 +106,15 @@ export class UserService{
             }
     
             return {
-                statusValue: 404,
+                statusValue: 401,
                 message: ERROS.WRONG_PASSWORD
             }
         }catch(error){
+            console.log(error.message)
+
             return {
-                statusValue: 404,
-                message: error.message
+                statusValue: 500,
+                message: `${ERROS.INTERNAL} while updating password.`
             }
         }
     }
@@ -85,6 +123,14 @@ export class UserService{
         try{
             await database.sync()
             const user = await UserModel.findByPk(id)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: ERROS.USER_NOT_FOUND
+                }
+            }
+
             if(user.password === password){
                 user.update({username: newUsername})
                 return {
@@ -94,26 +140,37 @@ export class UserService{
             }
     
             return {
-                statusValue: 404,
+                statusValue: 401,
                 message: ERROS.WRONG_PASSWORD
             }
+
         }catch(error){
+            console.log(error.message)
+
             return {
-                statusValue: 404,
-                message: error.message
+                statusValue: 500,
+                message: `${ERROS.INTERNAL} while updating username.`
             }
         }
     }
+
 
     async deleteUser(userId, password){
         try{
             await database.sync()
             const user = await UserModel.findByPk(userId)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: ERROS.USER_NOT_FOUND
+                }
+            }
             
             if(user.password !== password){
                 return {
-                    statusValue: 400,
-                    message: `Wrong password!`
+                    statusValue: 401,
+                    message: ERROS.WRONG_PASSWORD
                 }
             }
 
@@ -123,9 +180,11 @@ export class UserService{
                 message: `User ${SUCCESS.DELETED}`
             }
         }catch(error){
+            console.log(error.message)
+
             return {
-                statusValue: 404,
-                message: error.message
+                statusValue: 500,
+                message: `${ERROS.INTERNAL} while deleting user`
             }
         }
 
