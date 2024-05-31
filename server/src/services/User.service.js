@@ -154,6 +154,92 @@ export class UserService{
         }
     }
 
+    async updateProfilePicture(id, url){
+        try{
+            await database.sync()
+            const user = await UserModel.findByPk(id)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: `User ${ERROS.NOT_FOUND}.`
+                }
+            }
+
+            user.update({profile_picture_url: url})
+
+            return {
+                statusValue: 200,
+                message: `Profile picture updated`
+            }
+
+        }catch(error){
+            console.log(error.message)
+
+            return {
+                statusValue: 500,
+                message: `${ERROS.INTERNAL} while updating profile picture.`
+            }
+        }
+    }
+
+    async updateDescription(id, description){
+        try{
+            await database.sync()
+            const user = await UserModel.findByPk(id)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: `User ${ERROS.NOT_FOUND}.`
+                }
+            }
+
+            user.update({description: description})
+
+            return {
+                statusValue: 200,
+                message: `Description updated`
+            }
+
+        }catch(error){
+            console.log(error.message)
+
+            return {
+                statusValue: 500,
+                message: `${ERROS.INTERNAL} while updating description.`
+            }
+        }
+    }
+
+    async updateCV(id, url){
+        try{
+            await database.sync()
+            const user = await UserModel.findByPk(id)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: `User ${ERROS.NOT_FOUND}.`
+                }
+            }
+
+            user.update({cv_url: url})
+
+            return {
+                statusValue: 200,
+                message: `CV updated`
+            }
+
+        }catch(error){
+            console.log(error.message)
+
+            return {
+                statusValue: 500,
+                message: `${ERROS.INTERNAL} while updating profile picture.`
+            }
+        }
+    }
 
     async deleteUser(userId, password){
         try{

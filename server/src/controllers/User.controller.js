@@ -117,6 +117,60 @@ export async function updateUsername(req, res){
 
 }
 
+export async function updateProfilePicture(req, res){
+    try{
+        const { url } = req.body
+        const userId = req.userId
+
+        const {statusValue, message} = await instanceUsersService.updateProfilePicture(userId, url)
+
+        return res.status(statusValue).json({message: message})
+
+    }catch(error){
+        console.log(error.message)
+
+        return res.status(500).json({
+            message: `${ERROS.INTERNAL} while trying to update user's profile picture.`
+        })
+    }
+}
+
+export async function updateDescription(req, res){
+    try{
+        const { description } = req.body
+        const userId = req.userId
+
+        const {statusValue, message} = await instanceUsersService.updateDescription(userId, description)
+
+        return res.status(statusValue).json({message: message})
+
+    }catch(error){
+        console.log(error.message)
+
+        return res.status(500).json({
+            message: `${ERROS.INTERNAL} while trying to update user's description.`
+        })
+    }
+}
+
+export async function updateCV(req, res){
+    try{
+        const { url } = req.body
+        const userId = req.userId
+
+        const {statusValue, message} = await instanceUsersService.updateCV(userId, url)
+
+        return res.status(statusValue).json({message: message})
+
+    }catch(error){
+        console.log(error.message)
+
+        return res.status(500).json({
+            message: `${ERROS.INTERNAL} while trying to update user's cv.`
+        })
+    }
+}
+
 export async function deleteUser(req, res){
     try{
         const { password } = req.body
