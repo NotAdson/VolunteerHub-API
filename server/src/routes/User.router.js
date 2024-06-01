@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createUser, getUser, updateUsername, updateUsersPassword, deleteUser, logInUser } from "../controllers/User.controller.js"
+import { createUser, getUser, updateUsername, updateUsersPassword, updateProfilePicture, updateDescription, updateCV, deleteUser, logInUser } from "../controllers/User.controller.js"
 import { UserValidator } from "../middleware/User.validator.js"
 import { verifyJWT } from "../authentication/Authenticator.js"
 
@@ -24,6 +24,18 @@ routerUser.put("/user/update-username", verifyJWT, instanceUserValidator.updateU
 
 routerUser.put("/user/update-password", verifyJWT, instanceUserValidator.updatePasswordValidation,async (req, res) => {
     return await updateUsersPassword(req, res)
+})
+
+routerUser.put("/user/update-profile-picture", verifyJWT, instanceUserValidator.updateProfilePictureValidation, async (req, res) => {
+    return await updateProfilePicture(req, res)
+})
+
+routerUser.put("/user/update-description", verifyJWT, instanceUserValidator.updateDescriptionValidation, async (req, res)=>{
+    return await updateDescription(req, res)
+})
+
+routerUser.put("/user/update-cv", verifyJWT, instanceUserValidator.updateCVValidation, async (req, res)=>{
+    return await updateCV(req, res)
 })
 
 routerUser.delete("/user/delete-account", verifyJWT, instanceUserValidator.deleteUserValidation,async (req, res) => {
