@@ -166,7 +166,7 @@ export async function updateCV(req, res){
         console.log(error.message)
 
         return res.status(500).json({
-            message: `${ERROS.INTERNAL} while trying to update user's profile picture.`
+            message: `${ERROS.INTERNAL} while trying to update user's cv.`
         })
     }
 }
