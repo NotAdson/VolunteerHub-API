@@ -166,7 +166,7 @@ export class UserService{
                 }
             }
 
-            user.profile_picture_url = url
+            user.update({profile_picture_url: url})
 
             return {
                 statusValue: 200,
@@ -195,7 +195,7 @@ export class UserService{
                 }
             }
 
-            user.description = description
+            user.update({description: description})
 
             return {
                 statusValue: 200,
@@ -224,7 +224,7 @@ export class UserService{
                 }
             }
 
-            user.cv_url = url
+            user.update({cv_url: url})
 
             return {
                 statusValue: 200,
