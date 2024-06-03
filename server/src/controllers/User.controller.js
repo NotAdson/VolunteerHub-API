@@ -1,69 +1,192 @@
 import { UserService } from "../services/User.service.js"
 import { generateAccessToken } from "../authentication/Authenticator.js"
+import { ERROS } from "../shared/messages.js"
 
 const instanceUsersService = new UserService()
 
 export async function createUser(req, res){
-    const { username, email, password } = req.body
-    const {statusValue, message, userId} = await instanceUsersService.createUser(username, email, password)
-    if(statusValue !== 404){
-        const userToken = generateAccessToken(userId)
+    try{
+        const { username, email, password } = req.body
+        const {statusValue, message, userId} = await instanceUsersService.createUser(username, email, password)
+
+        if(statusValue === 201){
+            const userToken = generateAccessToken(userId)
+
+            return res.status(statusValue).json({
+                message: message,
+                token: userToken
+            })
+        }
+
         return res.status(statusValue).json({
-            message: message,
-            token: userToken
+            message: message
+        })
+
+    }catch(error){
+        console.log(error.message)
+
+        return res.status(500).json({
+            message: `${ERROS.INTERNAL} while trying to create the user.`
         })
     }
-
-    return res.status(statusValue).json(
-    {
-        message: message
-    }
-    )
 }
 
 export async function getUser(req, res){
-    const {id} = req.body
-    const {statusValue, message, user} = await instanceUsersService.getUser(id)
-    return res.status(statusValue).json({
-        message: message,
-        user: user
-    })
-    
+    try{
+        const {id} = req.body
+        const {statusValue, message, user} = await instanceUsersService.getUser(id)
+
+        return res.status(statusValue).json({
+            message: message,
+            user: user
+        })
+
+    }catch(error){
+        console.log(error.message)
+
+        return res.status(500).json({
+            message: `${ERROS.INTERNAL} while trying to get the user.`
+        })
+    } 
 }
 
 export async function logInUser(req, res){
-    const { email, password } = req.body
+    try{
+        const { email, password } = req.body
 
-    const userId = await instanceUsersService.userValidation(email, password);
-    if(userId){
-        const token = generateAccessToken(userId)
-        return res.status(200).json({
-            token: token
+        const {statusValue, message, userId} = await instanceUsersService.userValidation(email, password);
+
+        if(statusValue == 200){
+            const token = generateAccessToken(userId)
+
+            return res.status(statusValue).json({
+                token: token
+            })
+        }
+
+        return res.status(statusValue).json({
+            message: message
+        })
+
+    }catch(error){
+        console.log(error.message)
+
+        return res.status(500).json({
+            message: `${ERROS.INTERNAL} while trying to log user in.`
         })
     }
 
-    return res.status(404).json({
-        message: "The email or password is wrong!"
-    })
 }
 
 export async function updateUsersPassword(req, res){
+    try{
         const { password, newPassword} = req.body
+
         const userId = req.userId
+
         const {statusValue, message} = await instanceUsersService.updatePassword(userId, password, newPassword)
+
         return res.status(statusValue).json({message: message})
+
+    }catch(error){
+        console.log(error.message)
+
+        return res.status(500).json({
+            message: `${ERROS.INTERNAL} while trying to update user's password.`
+        })
+    }
+
 }
 
 export async function updateUsername(req, res){
-    const { password, newUsername} = req.body
-    const userId = req.userId
-    const {statusValue, message} = await instanceUsersService.updateUsername(userId, password, newUsername)
-    return res.status(statusValue).json({message: message})
+    try{
+        const { password, newUsername} = req.body
+
+        const userId = req.userId
+
+        const {statusValue, message} = await instanceUsersService.updateUsername(userId, password, newUsername)
+
+        return res.status(statusValue).json({message: message})
+    }catch(error){
+        console.log(error.message)
+
+        return res.status(500).json({
+            message: `${ERROS.INTERNAL} while trying to update user's username.`
+        })
+    }
+
+}
+
+export async function updateProfilePicture(req, res){
+    try{
+        const { url } = req.body
+        const userId = req.userId
+
+        const {statusValue, message} = await instanceUsersService.updateProfilePicture(userId, url)
+
+        return res.status(statusValue).json({message: message})
+
+    }catch(error){
+        console.log(error.message)
+
+        return res.status(500).json({
+            message: `${ERROS.INTERNAL} while trying to update user's profile picture.`
+        })
+    }
+}
+
+export async function updateDescription(req, res){
+    try{
+        const { description } = req.body
+        const userId = req.userId
+
+        const {statusValue, message} = await instanceUsersService.updateDescription(userId, description)
+
+        return res.status(statusValue).json({message: message})
+
+    }catch(error){
+        console.log(error.message)
+
+        return res.status(500).json({
+            message: `${ERROS.INTERNAL} while trying to update user's description.`
+        })
+    }
+}
+
+export async function updateCV(req, res){
+    try{
+        const { url } = req.body
+        const userId = req.userId
+
+        const {statusValue, message} = await instanceUsersService.updateCV(userId, url)
+
+        return res.status(statusValue).json({message: message})
+
+    }catch(error){
+        console.log(error.message)
+
+        return res.status(500).json({
+            message: `${ERROS.INTERNAL} while trying to update user's cv.`
+        })
+    }
 }
 
 export async function deleteUser(req, res){
-    const { password } = req.body
-    const userId = req.userId
-    const { statusValue, message} = await instanceUsersService.deleteUser(userId, password)
-    return res.status(statusValue).json({message: message})
+    try{
+        const { password } = req.body
+
+        const userId = req.userId
+
+        const { statusValue, message} = await instanceUsersService.deleteUser(userId, password)
+
+        return res.status(statusValue).json({message: message})
+
+    }catch(error){
+        console.log(error.message)
+
+        return res.status(500).json({
+            message: `${ERROS.INTERNAL} while trying to delete user.`
+        })
+    }
+
 }

@@ -1,4 +1,3 @@
-import { DESCRIBE } from "sequelize/lib/query-types"
 import { database } from "../database/connection.js"
 import { DataTypes, Sequelize } from "sequelize"
 
@@ -33,6 +32,11 @@ export const UserModel = database.define("tb_users", {
     },
 
     profile_picture_url:{
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
+    cv_url:{
         type: DataTypes.STRING,
         allowNull: true
     }
