@@ -1,10 +1,9 @@
 import { Sequelize } from "sequelize";
+import dotenv from 'dotenv'
 
-const database = new Sequelize('volunteerhub_db', 'root', 'root', {
-    host: 'localhost',
-    dialect: 'mysql',
-    logging: false
-});
+dotenv.config()
+
+const database = new Sequelize(process.env.ADDRESS);
 
 export async function tryToConnect(){
     try{
