@@ -53,6 +53,31 @@ export class UserValidator{
 
     }
 
+    async logInValidation(req, res, next){
+        try{
+            const { email, password } = req.body;
+            const fields = ["email", "password"]
+            const errors = []
+
+            for(const field of fields){
+                if(!req.body[field]){
+                    errors.push(`The field ${field} cannot be blank.`)
+                }
+            }
+
+            if(errors.length){
+                return res.status(400).json({errors})
+            }
+
+            next()
+        }catch(error){
+            console.log(error.message)
+            return res.status(500).json({
+                message:`${ERROS.INTERNAL} while validating request`
+            })
+        }
+    }
+
     async updatePasswordValidation(req, res, next){
         try{
             const { password, newPassword } = req.body;

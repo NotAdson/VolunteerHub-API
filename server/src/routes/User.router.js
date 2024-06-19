@@ -10,7 +10,7 @@ routerUser.post("/register-user", instanceUserValidator.createUserValidation, as
     return await createUser(req, res)
 })
 
-routerUser.post("/login", async (req, res) => {
+routerUser.post("/login", instanceUserValidator.logInValidation, async (req, res) => {
     return await logInUser(req, res)
 })
 
