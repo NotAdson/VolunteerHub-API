@@ -16,6 +16,10 @@ export function verifyJWT(req, res, next){
     try{
         const token = req.headers['x-access-token']
 
+        if(!token){
+            return res.status(400).json({message:"No token"})
+        }
+
         jwt.verify(token, process.env.TOKEN, (error, decoded) => {
             if(error) return res.status(401).json({
                 error: error
@@ -25,9 +29,9 @@ export function verifyJWT(req, res, next){
             next();
         }) 
     }catch(error){
-        return res.status(401).json({
+        console.log(error.message)
+        return res.status(501).json({
             message: "Error trying to verify JWT.",
-            error: error.message
         })
     }
 }
