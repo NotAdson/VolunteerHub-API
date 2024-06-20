@@ -24,6 +24,7 @@ export class CommentService{
 
     async getCommentsFromPost(postId){
         try{
+            await database.sync()
             const comments = await CommentModel.findAll({
                 where: {
                     postId: postId
