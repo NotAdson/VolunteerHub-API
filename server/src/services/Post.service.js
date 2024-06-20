@@ -38,6 +38,33 @@ export class PostService{
         }
     }
 
+    async getAllPostsFromUser(userId){
+        try{
+            await database.sync()
+            const posts = await PostModel.findAll({
+                where: {
+                    creatorId: userId
+                },
+                order: [
+                    ["createdAt", "DESC"],
+                ]
+            })
+
+            return {
+                statusValue: 200,
+                content: posts,
+                message: posts.length ?`Got ${SUCCESS.POST}` : `The user doesn't have any posts or it doesn't exist.`
+            }
+
+        }catch(error){
+            console.log(error.message)
+            return {
+                statusValue: 500,
+                message: `${ERROS.INTERNAL} while getting posts from user.`
+            }
+        }
+    }
+
     async getAllPosts(){
         try{
             await database.sync()
