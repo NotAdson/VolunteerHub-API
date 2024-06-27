@@ -6,7 +6,21 @@ export class UserService{
     async createUser(username, email, password){
         try{
             await database.sync()
+            const possibleUser = await UserModel.findOne({
+                where:{
+                    email: email
+                }
+            })
+
+            if(possibleUser){
+                return{
+                    statusValue: 400,
+                    message: `The user already exists`
+                }
+            }
+            
             const newUser = await UserModel.create({username, email, password})
+
             return {
                 statusValue: 201,
                 message: `Created ${SUCCESS.USER}`,
