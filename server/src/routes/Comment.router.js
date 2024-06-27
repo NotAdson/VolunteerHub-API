@@ -6,7 +6,7 @@ import { Router } from "express"
 const routerComment = Router()
 const instanceCommentValidator = new CommentValidator()
 
-routerComment.post("/create-comment", verifyJWT,instanceCommentValidator.createCommentValidation, async (req, res)=>{
+routerComment.post("/create-comment", verifyJWT, instanceCommentValidator.createCommentValidation, async (req, res)=>{
     return await createComment(req, res)
 })
 routerComment.get("/comments/get-from-post/:postId", instanceCommentValidator.getCommentsFromPostValidation, async (req, res) => {
