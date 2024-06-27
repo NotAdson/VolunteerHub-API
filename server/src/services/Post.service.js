@@ -41,6 +41,15 @@ export class PostService{
     async getAllPostsFromUser(userId){
         try{
             await database.sync()
+            const user = await UserModel.findByPk(userId)
+
+            if(!user){
+                return {
+                    statusValue: 404,
+                    message: `${ERROS.USER_NOT_FOUND}`
+                }
+            }
+
             const posts = await PostModel.findAll({
                 where: {
                     creatorId: userId
@@ -53,7 +62,7 @@ export class PostService{
             return {
                 statusValue: 200,
                 content: posts,
-                message: posts.length ?`Got ${SUCCESS.POST}` : `The user doesn't have any posts or it doesn't exist.`
+                message: `Got ${SUCCESS.POST}`
             }
 
         }catch(error){
