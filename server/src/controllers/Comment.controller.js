@@ -1,4 +1,5 @@
 import { CommentService } from "../services/Comment.service.js"
+import { ERROS } from "../shared/messages.js"
 
 const instanceCommentService = new CommentService()
 
@@ -12,7 +13,8 @@ export async function createComment(req, res){
             message: response.message
         })
     }catch(error){
-        return res.status(404).json({message:error.message})
+        console.log(error.message)
+        return res.status(500).json({message: `${ERROS.INTERNAL}`})
     }
 }
 
@@ -26,9 +28,8 @@ export async function getCommentsFromPost(req, res){
             content: response.content
         })
     }catch(error){
-        return res.status(404).json({
-            message: error.message
-        })
+        console.log(error.message)
+        return res.status(500).json({message: `${ERROS.INTERNAL}`})
     }
 
 }
@@ -41,6 +42,7 @@ export async function deleteComment(req, res){
 
         return res.status(response.statusValue).json({message: response.message})
     }catch(error){
-        return res.status(404).json({message: error.message})
+        console.log(error.message)
+        return res.status(500).json({message: `${ERROS.INTERNAL}`})
     }
 }
